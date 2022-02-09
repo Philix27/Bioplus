@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "513953331776",
+    "project_id": "bioplus-610a1",
+    "storage_bucket": "bioplus-610a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513953331776:android:14ef12d6b9fe19368afda5",
+        "android_client_info": {
+          "package_name": "com.philix.bioplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513953331776-hdace65rp69samhtpapecn94cfdngpmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJD5TX0Hit6nhqYZLZrAUEQLA2tRxLA_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513953331776-hdace65rp69samhtpapecn94cfdngpmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

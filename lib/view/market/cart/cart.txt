@@ -1,0 +1,125 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bioplus/core/global_variables.dart';
+import 'package:bioplus/view/market/cart/cart_item_wid.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
+
+import 'package:bioplus/core/styles.dart';
+import 'package:bioplus/view/market/cart/cart_item_model.dart';
+import 'package:bioplus/view/widgets/loading.dart';
+import 'package:bioplus/view/widgets/widgets.dart';
+
+import 'cart_checkout.dart';
+import 'cart_controller.dart';
+import 'cart_item_model.dart';
+
+// TODO: Retrive all the list of products added to cart
+// TODO: Use of stream
+int totalCartPrice = 0;
+
+class CartPage extends StatefulWidget {
+  @override
+  _CartPageState createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  final CartController controller = Get.put<CartController>(CartController());
+  final List<CheckoutItem> checkoutItemsList = <CheckoutItem>[];
+
+  List<int> priceListTotal = <int>[];
+  int calculateTotal() {
+    return priceListTotal.fold(0, (p, e) => p + e);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Shopping Cart',
+          style: Styles.headlineText2,
+        ),
+        centerTitle: true,
+      ),
+      bottomNavigationBar: Wrap(
+        children: [
+          ListTile(
+            tileColor: Styles.primaryColor,
+            leading: Text(
+              'Total:',
+              style: Styles.headlineText4,
+            ),
+            trailing: Text(
+              MyGlobals.moneyFormater(calculateTotal()),
+              style: Styles.headlineText4,
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: controller.getCartList.snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Loading.spinKitFadingCircle();
+                }
+                return Column(
+                  children: [
+                    ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        final DocumentSnapshot snap = snapshot.data.docs[index];
+                        final CartItem cartItem = CartItem.fromMap(snap.data());
+                        // final CartItem cartItem =
+                        //     controller.cartItemModelList.value[index];
+
+                        return CartItemWid(
+                          widgetIndex: index,
+                          productID: cartItem.productID,
+                          cartItem: cartItem,
+                          priceList: priceListTotal,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    const SizedBox(height: 30),
+                    Text(
+                      MyGlobals.moneyFormater(calculateTotal()),
+                      style: Styles.headlineText2,
+                    ),
+                    ListTile(
+                      tileColor: Styles.canvasColor,
+                      leading: Text(
+                        'Product Count',
+                        style: Styles.bodyText2,
+                      ),
+                      trailing: Text(
+                        '${snapshot.data.docs.length} items',
+                        style: Styles.bodyText2,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    MyWidgets.raisedButton(
+                      title: "Checkout",
+                      onPressed: () {
+                        Get.to(
+                            () => CartCheckout(itemsList: checkoutItemsList));
+                        // MyWidgets.snackbar(title: "Not fully implemented");
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
