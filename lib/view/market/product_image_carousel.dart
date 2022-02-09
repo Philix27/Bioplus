@@ -1,3 +1,4 @@
+import 'package:bioplus/view/widgets/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,12 +10,8 @@ import 'package:bioplus/view/market/more_image_page.dart';
 import 'package:bioplus/view/market/product_model.dart';
 import 'package:bioplus/view/widgets/widgets.dart';
 
-import 'package:bioplus/view/widgets/launch_url.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
-import 'package:bioplus/view/widgets/loading.dart';
 import 'package:get/get.dart';
-import 'package:timeago/timeago.dart';
 
 part 'product_details_page.dart';
 
